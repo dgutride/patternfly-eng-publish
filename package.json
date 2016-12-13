@@ -1,12 +1,14 @@
 {
   "name": "patternfly-eng-publish",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A collection of scripts for publishing PatternFly sites.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "bin" : { "publish-ghpages" : "./script/publish-ghpages.sh" },
+  "bin": {
+    "publish-ghpages": "./script/publish-ghpages.sh"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/patternfly/patternfly-eng-publish.git"
