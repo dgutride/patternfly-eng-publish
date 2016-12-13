@@ -21,6 +21,44 @@ r       Git repo this script will publish to
         default: origin
 ```
 
+## Installation
+npm install --save-dev patternfly-eng-publish
+
+Add a run script to your package.json with appropriate options set:
+
+```
+"scripts": {
+    "publish": "publish-ghpages.sh public"
+  },
+```
+
+Use `npm run publish` to publish the site.
+
+### Invoking from travis
+Add another npm run script:
+
+```
+"scripts": {
+    "publish-travis": "publish-ghpages.sh -t public"
+  },
+```
+
+Update the .travis.yml file to invoke the script:
+
+```
+env:
+  global:
+    - ENCRYPTION_LABEL: "XXXXXXXXXXXX"
+    - COMMIT_AUTHOR_EMAIL: "patternfly-build@redhat.com"
+    - TRIGGER_REPO_SLUG: "patternfly/patternfly-atomic"
+    - TRIGGER_REPO_BRANCH: "master"
+
+...
+
+after_success:
+  - npm run publish-travis
+```
+
 ## Adding deploy keys
 
 We create a new key for every repo. Upload the public key to the repos via the github UI under _Settings_ -> _Deploy Keys_.
