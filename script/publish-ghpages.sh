@@ -135,8 +135,12 @@ cloneSite () {
 copySite () {
   echo rsync -rav --delete --exclude .git ${SITE_FOLDER} github.io
   rsync -rav --delete --exclude .git ${SITE_FOLDER}/ github.io/
+}
+
+filterSite () {
   if $BOWER_WEB_FILES_ONLY; then
-    find ${SITE_FOLDER}/components -type f -not -regex ".*/.*\.\(html\|js\|css\|less\|otf\|eot\|svg\|ttf\|woff\|woff2\)" -print0 | xargs -0 rm
+    echo -e "${YELLOW}Removing non-web bower files.${NC}"
+    find github.io/components -type f -not -iregex ".*/.*\.\(html\|txt\|js\|coffee\|css\|scss\|less\|otf\|eot\|svg\|ttf\|woff\|woff2\|png\|jpg\|gif\|ico\|xml\|yml\|yaml\|map\|json\|md\)" -print0 | xargs -0 rm
   fi
 }
 
@@ -158,6 +162,7 @@ pushSite () {
 
 splitSite () {
   git checkout -b gh-pages-deploy
+  filterSite
   git add -f ${SITE_FOLDER}
   git commit -q -m "Added ${SITE_FOLDER} folder"
 
@@ -183,12 +188,14 @@ deploySite () {
     cleanSite
     cloneSite
     copySite
+    filterSite
     pushSite
     cleanSite
   else
     echo -e "${GREEN}### ${PUSH_BRANCH} branch does not exist, splitting branch${NC}"
     cleanBranch
     splitSite
+    filterSite
     cleanBranch
   fi
 }
