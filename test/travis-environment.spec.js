@@ -1,6 +1,6 @@
 'use strict';
 
-const ghpagesClasses = require('../script/ghpages-classes'),
+const TravisEnvironment = require('../lib/ghpages/TravisEnvironment'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       _ = require('lodash');
@@ -12,7 +12,7 @@ describe('TravisEnvironment', function() {
     let travisEnvironment, _env;
 
     beforeEach(function() {
-      travisEnvironment = new ghpagesClasses.TravisEnvironment();
+      travisEnvironment = new TravisEnvironment();
       _env = _.cloneDeep(process.env);
     });
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const ghpagesClasses = require('../script/ghpages-classes'),
+const SiteRepo = require('../lib/ghpages/SiteRepo'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       _ = require('lodash'),
@@ -13,12 +13,12 @@ chai.should();
 describe('SiteRepo', () => {
   describe('#inferRepo', () => {
     it('should be populate the pushRepo property ', () => {
-      let siteRepo = new ghpagesClasses.SiteRepo('origin', 'master');
+      let siteRepo = new SiteRepo('origin', 'master');
       return siteRepo.inferRepo().should.eventually.have.property('pushRepo')
       .should.eventually.endWith('.git')
     });
     it('should use the repoName directly when it ends with .git ', () => {
-      let siteRepo = new ghpagesClasses.SiteRepo('test.git', 'master');
+      let siteRepo = new SiteRepo('test.git', 'master');
       return siteRepo.inferRepo().should.eventually.have.property('pushRepo')
       .should.eventually.equal('test.git')
     });
@@ -27,13 +27,13 @@ describe('SiteRepo', () => {
   describe('#checkRemoteBranchExists', function() {
     this.timeout(5000);  // Remote calls can be slow
     it('should be true', () => {
-      let siteRepo = new ghpagesClasses.SiteRepo('origin', 'master');
+      let siteRepo = new SiteRepo('origin', 'master');
       return siteRepo.inferRepo()
       .then(() => siteRepo.checkRemoteBranchExists())
       .should.eventually.equal(true);
     });
     it('should be false', () => {
-      let siteRepo = new ghpagesClasses.SiteRepo('origin', 'doesnotexist');
+      let siteRepo = new SiteRepo('origin', 'doesnotexist');
       return siteRepo.inferRepo()
       .then(() => siteRepo.checkRemoteBranchExists())
       .should.eventually.equal(false);
@@ -55,7 +55,7 @@ describe('SiteRepo', () => {
     });
 
     it('should clone a local repo', () => {
-      let siteRepo = new ghpagesClasses.SiteRepo('origin', 'master');
+      let siteRepo = new SiteRepo('origin', 'master');
       let deployment = {
         deploymentFolder: {
           isClean: () => Promise.resolve(false),

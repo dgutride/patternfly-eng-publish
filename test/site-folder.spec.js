@@ -1,6 +1,6 @@
 'use strict';
 
-const ghpagesClasses = require('../script/ghpages-classes'),
+const SiteFolder = require('../lib/ghpages/SiteFolder'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       _ = require('lodash'),
@@ -13,11 +13,11 @@ chai.should();
 describe('SiteFolder', () => {
   describe('#verifySiteFolderExists', () => {
     it('should be fulfilled when the site folder exists', () => {
-      let siteFolder = new ghpagesClasses.SiteFolder('test/data');
+      let siteFolder = new SiteFolder('test/data');
       return siteFolder.verifySiteFolderExists().should.be.fulfilled;
     });
     it('should be rejected when the site folder does not exist', () => {
-      let siteFolder = new ghpagesClasses.SiteFolder('test/data2');
+      let siteFolder = new SiteFolder('test/data2');
       return siteFolder.verifySiteFolderExists().should.be.rejected;
     });
   });
@@ -27,7 +27,7 @@ describe('SiteFolder', () => {
       return exec('rm -rf test/data/*');
     });
     it('should copy all files', () => {
-      let siteFolder = new ghpagesClasses.SiteFolder('test/data/folder1');
+      let siteFolder = new SiteFolder('test/data/folder1');
       return fs.mkdir('test/data/folder1')
       .then(() => siteFolder.init())
       .then(() => exec('echo "test" > test/data/folder1/file.txt'))

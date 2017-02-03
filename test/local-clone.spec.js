@@ -1,6 +1,6 @@
 'use strict';
 
-const ghpagesClasses = require('../script/ghpages-classes'),
+const LocalClone = require('../lib/ghpages/LocalClone'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       _ = require('lodash'),
@@ -13,14 +13,14 @@ chai.should();
 describe('LocalClone', () => {
   describe('#init()', () => {
     it('should be fulfilled when correctly instatntiated', () => {
-      let localClone = new ghpagesClasses.LocalClone('test/data', 'origin');
+      let localClone = new LocalClone('test/data', 'origin');
       return localClone.init().should.be.fulfilled;
     });
   });
 
   describe('#verifySourceBranch', () => {
     it('should be fulfilled when the source branch is master', () => {
-      let localClone = new ghpagesClasses.LocalClone('test/data', 'origin');
+      let localClone = new LocalClone('test/data', 'origin');
       return localClone.verifySourceBranch().should.be.fulfilled;
     });
   });
@@ -37,7 +37,7 @@ describe('LocalClone', () => {
     });
 
     it('should return a sha', () => {
-      let localClone = new ghpagesClasses.LocalClone();
+      let localClone = new LocalClone();
       return fs.mkdir('repo1')
       .then(() => {
         process.chdir('repo1')
@@ -64,7 +64,7 @@ describe('LocalClone', () => {
     });
 
     it('should revert any uncommitted changes', () => {
-      let localClone = new ghpagesClasses.LocalClone();
+      let localClone = new LocalClone();
       return localClone.init()
       .then(() => fs.mkdir('repo1'))
       .then(() => {

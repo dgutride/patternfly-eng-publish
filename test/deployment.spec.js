@@ -1,6 +1,6 @@
 'use strict';
 
-const ghpagesClasses = require('../script/ghpages-classes'),
+const Deployment = require('../lib/ghpages/Deployment'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       _ = require('lodash'),

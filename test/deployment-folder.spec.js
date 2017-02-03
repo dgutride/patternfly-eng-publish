@@ -1,6 +1,6 @@
 'use strict';
 
-const ghpagesClasses = require('../script/ghpages-classes'),
+const DeploymentFolder = require('../lib/ghpages/DeploymentFolder'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       _ = require('lodash'),
@@ -13,7 +13,7 @@ chai.should();
 describe('DeploymentFolder', () => {
   describe('#init', () => {
     it('should be fulfilled', () => {
-      let deploymentFolder = new ghpagesClasses.DeploymentFolder();
+      let deploymentFolder = new DeploymentFolder();
       deploymentFolder.init().should.be.fulfilled;
     })
   });
@@ -28,7 +28,7 @@ describe('DeploymentFolder', () => {
     });
 
     it('should exist', () => {
-      let deploymentFolder = new ghpagesClasses.DeploymentFolder();
+      let deploymentFolder = new DeploymentFolder();
       return deploymentFolder.init()
       .then(() => fs.mkdir('test/data/github.io'))
       .then(() => process.chdir('test/data/'))
@@ -49,7 +49,7 @@ describe('DeploymentFolder', () => {
 
     it('should remove *.exe files', () => {
       process.chdir('test/data');
-      let deploymentFolder = new ghpagesClasses.DeploymentFolder();
+      let deploymentFolder = new DeploymentFolder();
       return deploymentFolder.init()
       .then(() => fs.mkdir('github.io'))
       .then(() => fs.mkdir('github.io/components'))
@@ -65,7 +65,7 @@ describe('DeploymentFolder', () => {
     beforeEach(() => {
       _cwd = process.cwd();
       process.chdir('test/data');
-      deploymentFolder = new ghpagesClasses.DeploymentFolder()
+      deploymentFolder = new DeploymentFolder()
       return deploymentFolder.clean();
     });
     afterEach(() => {

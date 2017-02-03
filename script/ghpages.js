@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
-const ghpagesClasses = require('./ghpages-classes');
+const Deployment = require('../lib/ghpages/Deployment'),
+      TravisEnvironment = require('../lib/ghpages/TravisEnvironment')
 
 const argv = require('yargs')
     .usage('Usage: $0 [options] <folder> \nThis script will publish files to the ${PUSH_BRANCH} branch of your repo.')
@@ -36,14 +37,14 @@ const argv = require('yargs')
 
 function main() {
   // Command options are present in: argv
-  let deployment = new ghpagesClasses.Deployment({
+  let deployment = new Deployment({
     siteFolder: argv._[0],
     repoName: argv.repo,
     pushBranch: argv.branch,
     filterBowerFiles: argv.web
   });
   let promise = argv.travis
-    ? new ghpagesClasses.TravisEnvironment()
+    ? new TravisEnvironment()
     : Promise.resolve();
   promise
   .then(() => deployment.init())
