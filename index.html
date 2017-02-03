@@ -1,0 +1,77 @@
+<h1>patternfly-eng-publish</h1>
+
+<p>A set of scripts for publishing PatternFly sites.</p>
+
+<h2>Usage</h2>
+
+<p><code></code>`
+This script will publish files to the gh-pages branch of your repo.</p>
+
+<p>publish-ghpages.sh [option] folder</p>
+
+<p>Example: publish-ghpages.sh</p>
+
+<p>OPTIONS:
+h       Display this message
+t       Perform a deploy from travis, using a travis encrypted key
+w       Remove non-web files from the SITE_FOLDER/components folder prior to publishing
+b       Remote branch this script will publish to
+        default: gh-pages
+r       Git repo this script will publish to
+        eg.: origin, upstream, bleathem, git@github.com:bleathem/bleathem.github.io.git
+        default: origin
+<code></code>`</p>
+
+<h2>Installation</h2>
+
+<p>npm install --save-dev patternfly-eng-publish</p>
+
+<p>Add a run script to your package.json with appropriate options set:</p>
+
+<p><code>
+&quot;scripts&quot;: {
+    &quot;publish&quot;: &quot;publish-ghpages.sh public&quot;
+  },
+</code></p>
+
+<p>Use <code>npm run publish</code> to publish the site.</p>
+
+<h3>Invoking from travis</h3>
+
+<p>Add another npm run script:</p>
+
+<p><code>
+&quot;scripts&quot;: {
+    &quot;publish-travis&quot;: &quot;publish-ghpages.sh -t public&quot;
+  },
+</code></p>
+
+<p>Update the .travis.yml file to invoke the script:</p>
+
+<p><code></code>`
+env:
+  global:
+    - ENCRYPTION<em>LABEL: &quot;XXXXXXXXXXXX&quot;
+    - COMMIT</em>AUTHOR<em>EMAIL: &quot;patternfly-build@redhat.com&quot;
+    - TRIGGER</em>REPO<em>SLUG: &quot;patternfly/patternfly-atomic&quot;
+    - TRIGGER</em>REPO_BRANCH: &quot;master&quot;</p>
+
+<p>...</p>
+
+<p>after_success:
+  - npm run publish-travis
+<code></code>`</p>
+
+<h2>Adding deploy keys</h2>
+
+<p>We create a new key for every repo. Upload the public key to the repos via the github UI under <em>Settings</em> -&gt; <em>Deploy Keys</em>.</p>
+
+<p><code>ssh-keygen -t rsa -b 4096 -C &quot;patternfly-build@redhat.com&quot; -f deploy-key_patternfly-design</code></p>
+
+<p>The private key gets encrypted and placed in the repo itself.  <code>gem isntall travis</code> to use the travis tool to encrypt it.  Don&#39;t follow the instructions in the output of that command, but you do extract the encryption label from that message.</p>
+
+<p><code>travis encrypt-file deploy_key</code></p>
+
+<p>The publish-ghpages cript is written such that it will look for the file called &quot;deploy<em>key.enc&quot; and use the ENCRYPTION</em>LABEL env var to decrypt it.  It then uses ssh-agent to load the key and use it for git pushes (over ssh).</p>
+
+<p>There is no need to share the keys.  We can re-create them more easily than we can manage sharing them.</p>
