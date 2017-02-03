@@ -7,7 +7,7 @@
     "test": "mocha test/*.spec.js"
   },
   "bin": {
-    "publish-ghpages.sh": "./script/publish-ghpages.sh"
+    "ghpages": "./bin/ghpages.js"
   },
   "repository": {
     "type": "git",
