@@ -1,6 +1,6 @@
 {
   "name": "patternfly-eng-publish",
-  "version": "0.1.0-alpha.16",
+  "version": "0.1.0-alpha.17",
   "description": "A collection of scripts for publishing PatternFly sites.",
   "main": "index.js",
   "scripts": {
