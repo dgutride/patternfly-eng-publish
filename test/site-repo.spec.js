@@ -40,6 +40,39 @@ describe('SiteRepo', () => {
     });
   });
 
+  describe('#checkIfShallow', () => {
+    let _cwd;
+    beforeEach(() => {
+      _cwd = process.cwd();
+      process.chdir('test/data');
+    });
+    afterEach(() => {
+      process.chdir(_cwd);
+      return exec('rm -rf test/data/*');
+    });
+
+    it('should return true when the repo is shallow', () => {
+      let siteRepo = new SiteRepo('origin', 'master');
+      return fs.mkdir('repo')
+      .then(() => process.chdir('repo'))
+      .then(() => fs.mkdir('.git'))
+      .then(() => exec('touch .git/shallow'))
+      .then(() => siteRepo.checkIfShallow())
+      .then(() => siteRepo.isShallow)
+      .should.eventually.be.true;
+    });
+
+    it('should return false when the repo is not shallow', () => {
+      let siteRepo = new SiteRepo('origin', 'master');
+      return fs.mkdir('repo')
+      .then(() => process.chdir('repo'))
+      .then(() => fs.mkdir('.git'))
+      .then(() => siteRepo.checkIfShallow())
+      .then(() => siteRepo.isShallow)
+      .should.eventually.be.false;
+    });
+  })
+
   describe('#clone', function() {
     this.timeout(5000);  // Remote calls can be slow
     let _cwd;
