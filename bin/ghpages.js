@@ -103,7 +103,7 @@ function inquireMissingOptions(options) {
     console.error(err.stack || err);
   }
   if (argv.travis) {
-    return promise.resolve(options);
+    return Promise.resolve(options);
   } else {
     return Promise.resolve(options)
     .then(options => options.repoName ? options : inquireMissingRepo(options))
