@@ -3,6 +3,7 @@
 const TravisEnvironment = require('../lib/ghpages/TravisEnvironment'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
+      exec = require('mz/child_process').exec,
       _ = require('lodash');
 chai.use(chaiAsPromised);
 chai.should();
