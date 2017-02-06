@@ -1,6 +1,6 @@
 'use strict';
 
-const SiteRepo = require('../lib/ghpages/SiteRepo'),
+const SiteRepo = require('../lib/ghpages/site-repo'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       _ = require('lodash'),

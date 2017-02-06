@@ -1,6 +1,6 @@
 'use strict';
 
-const LocalClone = require('../lib/ghpages/LocalClone'),
+const LocalClone = require('../lib/ghpages/local-clone'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       _ = require('lodash'),

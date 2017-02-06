@@ -1,6 +1,6 @@
 'use strict';
 
-const TravisEnvironment = require('../lib/ghpages/TravisEnvironment'),
+const TravisEnvironment = require('../lib/ghpages/travis-environment'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       exec = require('mz/child_process').exec,

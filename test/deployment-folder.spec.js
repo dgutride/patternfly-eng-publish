@@ -1,6 +1,6 @@
 'use strict';
 
-const DeploymentFolder = require('../lib/ghpages/DeploymentFolder'),
+const DeploymentFolder = require('../lib/ghpages/deployment-folder'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       _ = require('lodash'),

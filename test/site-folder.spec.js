@@ -1,6 +1,6 @@
 'use strict';
 
-const SiteFolder = require('../lib/ghpages/SiteFolder'),
+const SiteFolder = require('../lib/ghpages/site-folder'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       _ = require('lodash'),

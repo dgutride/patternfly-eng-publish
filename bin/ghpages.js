@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
-const Deployment = require('../lib/ghpages/Deployment'),
-      TravisEnvironment = require('../lib/ghpages/TravisEnvironment'),
+const Deployment = require('../lib/ghpages/deployment'),
+      TravisEnvironment = require('../lib/ghpages/travis-environment'),
       fs = require('fs-promise'),
       inquirer = require('inquirer'),
       yargs = require('yargs'),
