@@ -151,13 +151,21 @@ function inquireMissingRepo(options) {
       name: 'Other',
       value: ''
     });
-    return inquirer.prompt([{
-      type: 'rawlist',
-      name: 'repo',
-      message: 'To which repository do you want to publish?',
-      choices: choices,
-      default: 0
-    }]);
+    return exec('git for-each-ref --format=\'%(upstream:short)\' $(git symbolic-ref -q HEAD)')
+    .then(output => output[0].split('\n')[0].split('/')[0] || false)
+    .catch(err => '')
+    .then(tracking => {
+      let _default = choices.findIndex(choice => {
+        return choice.value === tracking;
+      })
+      return inquirer.prompt([{
+        type: 'rawlist',
+        name: 'repo',
+        default: _default,
+        message: 'To which repository do you want to publish?',
+        choices: choices,
+      }]);
+    });
   })
   .then(function (answers) {
     if (! answers.repo) {
