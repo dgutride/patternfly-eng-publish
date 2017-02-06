@@ -45,7 +45,7 @@ const argv = yargs
 
 function deploy(options) {
   let deployment = new Deployment(options);
-  let initPromise = argv.travis ? new TravisEnvironment() : Promise.resolve();
+  let initPromise = argv.travis ? new TravisEnvironment().init() : Promise.resolve();
   return initPromise
   .then(() => deployment.init())
   .then(() => deployment.deploy())
