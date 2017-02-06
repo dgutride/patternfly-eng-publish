@@ -4,21 +4,26 @@ A set of scripts for publishing PatternFly sites.
 ## Usage
 
 ```
-This script will publish files to the gh-pages branch of your repo.
+Usage: bin/ghpages.js [options] <folder>
+This script will publish files to a remote branch of your repo.
 
-publish-ghpages.sh [option] folder
+Options:
+  -r, --repo    Git repo this script will publish to eg.: origin, upstream,
+                bleathem, git@github.com:bleathem/bleathem.github.io.git
+  -t, --travis  Perform a deploy from travis, using a travis encrypted key
+                                                    [boolean] [default: "false"]
+  -b, --branch  Remote branch this script will publish to  [default: "gh-pages"]
+  -w, --web     Remove non-web files from the SITE_FOLDER/components folder
+                prior to publishing                 [boolean] [default: "false"]
+  -f, --foler   The folder to publish
+  -h, --help    Show help                                              [boolean]
 
-Example: publish-ghpages.sh
+Examples:
+  bin/ghpages.js -b gh-pages -r bleathem    Publish the public folder to the
+  -f public                                 gh-pages branch of the bleathem
+                                            repository
 
-OPTIONS:
-h       Display this message
-t       Perform a deploy from travis, using a travis encrypted key
-w       Remove non-web files from the SITE_FOLDER/components folder prior to publishing
-b       Remote branch this script will publish to
-        default: gh-pages
-r       Git repo this script will publish to
-        eg.: origin, upstream, bleathem, git@github.com:bleathem/bleathem.github.io.git
-        default: origin
+Copyright 2017, shared under the ASLv2 license
 ```
 
 ## Installation
