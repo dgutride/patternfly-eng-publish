@@ -78,17 +78,15 @@ describe('SiteRepo', () => {
     let _cwd;
     beforeEach(() => {
       _cwd = process.cwd();
-      process.env.PF_GHPAGES_QUIET = 'true';
       process.chdir('test/data');
     });
     afterEach(() => {
-      delete process.env.PF_GHPAGES_QUIET;
       process.chdir(_cwd);
       return exec('rm -rf test/data/*');
     });
 
     it('should clone a local repo', () => {
-      let siteRepo = new SiteRepo('origin', 'master');
+      let siteRepo = new SiteRepo('origin', 'master', true);
       let deployment = {
         deploymentFolder: {
           isClean: () => Promise.resolve(false),

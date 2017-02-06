@@ -190,7 +190,8 @@ function main() {
     siteFolder: argv._[0],
     repoName: argv.repo,
     pushBranch: argv.branch,
-    filterBowerFiles: argv.web
+    filterBowerFiles: argv.web,
+    travis: argv.travis
   };
   inquireMissingOptions(options)
   .then(function() {
