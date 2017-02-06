@@ -5,21 +5,26 @@
 <h2>Usage</h2>
 
 <p><code></code>`
-This script will publish files to the gh-pages branch of your repo.</p>
+Usage: bin/ghpages.js [options] &lt;folder&gt;
+This script will publish files to a remote branch of your repo.</p>
 
-<p>publish-ghpages.sh [option] folder</p>
+<p>Options:
+  -r, --repo    Git repo this script will publish to eg.: origin, upstream,
+                bleathem, git@github.com:bleathem/bleathem.github.io.git
+  -t, --travis  Perform a deploy from travis, using a travis encrypted key
+                                                    [boolean] [default: &quot;false&quot;]
+  -b, --branch  Remote branch this script will publish to  [default: &quot;gh-pages&quot;]
+  -w, --web     Remove non-web files from the SITE_FOLDER/components folder
+                prior to publishing                 [boolean] [default: &quot;false&quot;]
+  -f, --foler   The folder to publish
+  -h, --help    Show help                                              [boolean]</p>
 
-<p>Example: publish-ghpages.sh</p>
+<p>Examples:
+  bin/ghpages.js -b gh-pages -r bleathem    Publish the public folder to the
+  -f public                                 gh-pages branch of the bleathem
+                                            repository</p>
 
-<p>OPTIONS:
-h       Display this message
-t       Perform a deploy from travis, using a travis encrypted key
-w       Remove non-web files from the SITE_FOLDER/components folder prior to publishing
-b       Remote branch this script will publish to
-        default: gh-pages
-r       Git repo this script will publish to
-        eg.: origin, upstream, bleathem, git@github.com:bleathem/bleathem.github.io.git
-        default: origin
+<p>Copyright 2017, shared under the ASLv2 license
 <code></code>`</p>
 
 <h2>Installation</h2>
