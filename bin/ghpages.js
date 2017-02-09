@@ -3,7 +3,8 @@
 
 const Deployment = require('../lib/ghpages/deployment'),
       TravisEnvironment = require('../lib/ghpages/travis-environment'),
-      GhpagesInquirer = require('./ghpages-inquirer'),
+      GhpagesInquirer = require('../lib/ghpages/ghpages-inquirer'),
+      colors = require('colors'),
       yargs = require('yargs');
 
 const argv = yargs
@@ -25,11 +26,6 @@ const argv = yargs
     .default('b', 'gh-pages')
     .describe('b', 'Remote branch this script will publish to')
 
-    .alias('w', 'web')
-    .boolean('w')
-    .default('w', 'false')
-    .describe('w', 'Remove non-web files from the SITE_FOLDER/components folder prior to publishing')
-
     .alias('f', 'foler')
     .nargs('f', 1)
     // .default('f', 'public')
@@ -46,7 +42,7 @@ function deploy(options) {
   return initPromise
   .then(() => deployment.init())
   .then(() => deployment.deploy())
-  .catch(err => console.error(err.stack || err));
+  .catch(err => console.error(colors.red(err.stack || err)));
 }
 
 function main() {
@@ -58,7 +54,8 @@ function main() {
     filterBowerFiles: argv.web,
     travis: argv.travis
   };
-  GhpagesInquirer.inquireMissingOptions(options)
+  let ghpagesInquirer = new GhpagesInquirer();
+  ghpagesInquirer.inquireMissingOptions(options)
   .then(function() {
     return deploy(options);
   }, function(err) {
