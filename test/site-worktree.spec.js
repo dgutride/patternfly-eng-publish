@@ -1,6 +1,6 @@
 'use strict';
 
-const DeploymentFolder = require('../lib/ghpages/deployment-folder'),
+const SiteWorktree = require('../lib/ghpages/site-worktree'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       _ = require('lodash'),
@@ -10,11 +10,11 @@ chai.use(require('chai-string'));
 chai.use(chaiAsPromised);
 chai.should();
 
-describe('DeploymentFolder', () => {
+describe('SiteWorktree', () => {
   describe('#init', () => {
     it('should be fulfilled', () => {
-      let deploymentFolder = new DeploymentFolder();
-      deploymentFolder.init().should.be.fulfilled;
+      let siteWorktree = new SiteWorktree();
+      siteWorktree.init().should.be.fulfilled;
     })
   });
 
@@ -28,11 +28,11 @@ describe('DeploymentFolder', () => {
     });
 
     it('should exist', () => {
-      let deploymentFolder = new DeploymentFolder();
-      return deploymentFolder.init()
+      let siteWorktree = new SiteWorktree();
+      return siteWorktree.init()
       .then(() => fs.mkdir('test/data/github.io'))
       .then(() => process.chdir('test/data/'))
-      .then(() => deploymentFolder.clean())
+      .then(() => siteWorktree.clean())
       .then(() => fs.exists('github.io'))
       .should.eventually.equal(false);
     });
@@ -49,52 +49,52 @@ describe('DeploymentFolder', () => {
 
     it('should remove *.exe files', () => {
       process.chdir('test/data');
-      let deploymentFolder = new DeploymentFolder();
-      return deploymentFolder.init()
+      let siteWorktree = new SiteWorktree();
+      return siteWorktree.init()
       .then(() => fs.mkdir('github.io'))
       .then(() => fs.mkdir('github.io/components'))
       .then(() => exec('touch github.io/components/test.exe'))
-      .then(() => deploymentFolder.clean())
+      .then(() => siteWorktree.clean())
       .then(() => fs.exists('github.io/components/test.exe'))
       .should.eventually.be.false;
     });
   });
 
   describe('#isClean', () => {
-    let _cwd, deploymentFolder;
+    let _cwd, siteWorktree;
     beforeEach(() => {
       _cwd = process.cwd();
       process.chdir('test/data');
-      deploymentFolder = new DeploymentFolder()
-      return deploymentFolder.clean();
+      siteWorktree = new SiteWorktree()
+      return siteWorktree.clean();
     });
     afterEach(() => {
-      return deploymentFolder.clean()
+      return siteWorktree.clean()
       .then(() => {
         process.chdir(_cwd);
       });
     });
 
     it('should be clean in an clean chceckout', () => {
-      return deploymentFolder.init()
+      return siteWorktree.init()
       .then(() => fs.mkdir('github.io'))
       .then(() => exec(`git -C github.io init`))
       .then(() => exec(`touch github.io/README.md`))
       .then(() => exec(`git -C github.io add -A`))
       .then(() => exec(`git -C github.io commit -m'Initial commit'`))
-      .then(() => deploymentFolder.isClean())
+      .then(() => siteWorktree.isClean())
       .should.eventually.be.true;
     });
 
     it('should not be clean in an dirty chceckout', () => {
-      return deploymentFolder.init()
+      return siteWorktree.init()
       .then(() => fs.mkdir('github.io'))
       .then(() => exec(`git -C github.io init`))
       .then(() => exec(`touch github.io/README.md`))
       .then(() => exec(`git -C github.io add -A`))
       .then(() => exec(`git -C github.io commit -m'Initial commit'`))
       .then(() => exec(`touch github.io/some_file.ext`))
-      .then(() => deploymentFolder.isClean())
+      .then(() => siteWorktree.isClean())
       .should.eventually.be.false;
     });
   });

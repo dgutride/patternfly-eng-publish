@@ -88,7 +88,7 @@ describe('SiteRepo', () => {
     it('should clone a local repo', () => {
       let siteRepo = new SiteRepo('origin', 'master', true);
       let deployment = {
-        deploymentFolder: {
+        siteWorktree: {
           isClean: () => Promise.resolve(false),
         },
         localClone: {
