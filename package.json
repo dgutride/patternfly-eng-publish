@@ -43,7 +43,7 @@
   },
   "patternfly": {
     "publish": {
-      "siteFolder": "public"
+      "siteBuild": "public"
     }
   }
 }

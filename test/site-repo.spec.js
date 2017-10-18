@@ -94,7 +94,7 @@ describe('SiteRepo', () => {
         localClone: {
           sha: '123456'
         },
-        siteFolder: {
+        siteBuild: {
           path: './'
         }
       }

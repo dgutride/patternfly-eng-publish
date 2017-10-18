@@ -1,6 +1,6 @@
 'use strict';
 
-const SiteFolder = require('../lib/ghpages/site-folder'),
+const SiteFolder = require('../lib/ghpages/site-build'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       _ = require('lodash'),
@@ -13,12 +13,12 @@ chai.should();
 describe('SiteFolder', () => {
   describe('#verifySiteFolderExists', () => {
     it('should be fulfilled when the site folder exists', () => {
-      let siteFolder = new SiteFolder('test/data');
-      return siteFolder.verifySiteFolderExists().should.be.fulfilled;
+      let siteBuild = new SiteFolder('test/data');
+      return siteBuild.verifySiteFolderExists().should.be.fulfilled;
     });
     it('should be rejected when the site folder does not exist', () => {
-      let siteFolder = new SiteFolder('test/data2');
-      return siteFolder.verifySiteFolderExists().should.be.rejected;
+      let siteBuild = new SiteFolder('test/data2');
+      return siteBuild.verifySiteFolderExists().should.be.rejected;
     });
   });
 
@@ -27,11 +27,11 @@ describe('SiteFolder', () => {
       return exec('rm -rf test/data/*');
     });
     it('should copy all files', () => {
-      let siteFolder = new SiteFolder('test/data/folder1');
+      let siteBuild = new SiteFolder('test/data/folder1');
       return fs.mkdir('test/data/folder1')
-      .then(() => siteFolder.init())
+      .then(() => siteBuild.init())
       .then(() => exec('echo "test" > test/data/folder1/file.txt'))
-      .then(() => siteFolder.copyTo('test/data/folder2'))
+      .then(() => siteBuild.copyTo('test/data/folder2'))
       .then(() => fs.exists('test/data/folder2/file.txt'))
       .should.eventually.be.true;
     });

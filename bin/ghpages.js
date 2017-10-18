@@ -48,7 +48,7 @@ function deploy(options) {
 function main() {
   // Command options are present in: argv
   let options = {
-    siteFolder: argv._[0],
+    siteBuild: argv._[0],
     repoName: argv.repo,
     pushBranch: argv.branch,
     filterBowerFiles: argv.web,

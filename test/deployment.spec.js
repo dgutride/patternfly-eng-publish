@@ -16,7 +16,7 @@ describe('Deployment', () => {
       let initStart = deploymentEmitter.promise('deployment-init-start');
       let initEnd = deploymentEmitter.promise('deployment-init-end');
       let deployment = new Deployment({
-        siteFolder: '.',
+        siteBuild: '.',
         repoName: 'origin'
       });
       return Promise.all([deployment.init(), initStart, initEnd]).should.eventually.be.fulfilled;
