@@ -3,7 +3,7 @@
 
 const Deployment = require('../lib/ghpages/deployment'),
       TravisEnvironment = require('../lib/ghpages/travis-environment'),
-      GhpagesInquirer = require('../lib/ghpages/ghpages-inquirer'),
+      GhpagesInquirer = require('../lib/ghpages/options-inquirer'),
       colors = require('colors'),
       yargs = require('yargs');
 
@@ -56,7 +56,7 @@ function main() {
   };
   let ghpagesInquirer = new GhpagesInquirer();
   ghpagesInquirer.inquireMissingOptions(options)
-  .then(function() {
+  .then(function(options) {
     return deploy(options);
   }, function(err) {
     console.error(err.stack || err);
