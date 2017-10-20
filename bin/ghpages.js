@@ -26,10 +26,10 @@ const argv = yargs
     .default('b', 'gh-pages')
     .describe('b', 'Remote branch this script will publish to')
 
-    .alias('f', 'foler')
-    .nargs('f', 1)
-    // .default('f', 'public')
-    .describe('f', 'The folder to publish')
+    .alias('s', 'subfolder')
+    .nargs('s', 1)
+    .default('s', '')
+    .describe('s', 'The name of this stage, used in building the URL.  Leave empty for a root deployment')
 
     .help('h')
     .alias('h', 'help')
@@ -49,6 +49,7 @@ function main() {
   // Command options are present in: argv
   let options = {
     siteBuild: argv._[0],
+    subfolder: argv.subfolder,
     repoName: argv.repo,
     pushBranch: argv.branch,
     filterBowerFiles: argv.web,
