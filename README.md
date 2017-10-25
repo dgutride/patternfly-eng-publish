@@ -8,15 +8,15 @@ Usage: bin/ghpages.js [options] <folder>
 This script will publish files to a remote branch of your repo.
 
 Options:
-  -r, --repo    Git repo this script will publish to eg.: origin, upstream,
-                bleathem, git@github.com:bleathem/bleathem.github.io.git
-  -t, --travis  Perform a deploy from travis, using a travis encrypted key
+  -r, --repo       Git repo this script will publish to eg.: origin, upstream,
+                   bleathem, git@github.com:bleathem/bleathem.github.io.git
+  -t, --travis     Perform a deploy from travis, using a travis encrypted key
                                                     [boolean] [default: "false"]
-  -b, --branch  Remote branch this script will publish to  [default: "gh-pages"]
-  -w, --web     Remove non-web files from the SITE_FOLDER/components folder
-                prior to publishing                 [boolean] [default: "false"]
-  -f, --foler   The folder to publish
-  -h, --help    Show help                                              [boolean]
+  -b, --branch     Remote branch this script will publish to
+                                                           [default: "gh-pages"]
+  -s, --subfolder  The name of this stage, used in building the URL.  Leave
+                   empty for a root deployment                     [default: ""]
+  -h, --help       Show help                                           [boolean]
 
 Examples:
   bin/ghpages.js -b gh-pages -r bleathem    Publish the public folder to the
