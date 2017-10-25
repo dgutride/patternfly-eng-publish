@@ -33,7 +33,7 @@ Add a run script to your package.json with appropriate options set:
 
 ```
 "scripts": {
-    "publish": "publish-ghpages.sh public"
+    "publish": "ghpages public"
   },
 ```
 
@@ -44,7 +44,7 @@ Add another npm run script:
 
 ```
 "scripts": {
-    "publish-travis": "publish-ghpages.sh -t public"
+    "publish-travis": "ghpages -t public"
   },
 ```
 
@@ -77,3 +77,8 @@ The private key gets encrypted and placed in the repo itself.  `gem isntall trav
 The publish-ghpages cript is written such that it will look for the file called "deploy_key.enc" and use the ENCRYPTION_LABEL env var to decrypt it.  It then uses ssh-agent to load the key and use it for git pushes (over ssh).
 
 There is no need to share the keys.  We can re-create them more easily than we can manage sharing them.
+
+# Development
+
+This tool has a single CLI entrypoint: the `gh-pages` script.  The top-level class is the `Deployment` class.
+Refer to script/class comments for further development details.
