@@ -4,37 +4,7 @@
 const Deployment = require('../lib/ghpages/deployment'),
       TravisEnvironment = require('../lib/ghpages/travis-environment'),
       GhpagesInquirer = require('../lib/ghpages/options-inquirer'),
-      colors = require('colors'),
-      yargs = require('yargs');
-
-const argv = yargs
-    .usage('Usage: $0 [options] <folder> \nThis script will publish files to a remote branch of your repo.')
-    .example('$0 -b gh-pages -r bleathem -f public', 'Publish the public folder to the gh-pages branch of the bleathem repository')
-
-    .alias('r', 'repo')
-    .nargs('r', 1)
-    // .default('r', 'origin')
-    .describe('r', 'Git repo this script will publish to eg.: origin, upstream, bleathem, git@github.com:bleathem/bleathem.github.io.git')
-
-    .alias('t', 'travis')
-    .boolean('t')
-    .default('t', 'false')
-    .describe('t', 'Perform a deploy from travis, using a travis encrypted key')
-
-    .alias('b', 'branch')
-    .nargs('b', 1)
-    .default('b', 'gh-pages')
-    .describe('b', 'Remote branch this script will publish to')
-
-    .alias('s', 'subfolder')
-    .nargs('s', 1)
-    .default('s', '')
-    .describe('s', 'The name of this stage, used in building the URL.  Leave empty for a root deployment')
-
-    .help('h')
-    .alias('h', 'help')
-    .epilog('Copyright 2017, shared under the ASLv2 license')
-    .argv;
+      colors = require('colors');
 
 function deploy(options) {
   let deployment = new Deployment(options);
@@ -47,16 +17,8 @@ function deploy(options) {
 
 function main() {
   // Command options are present in: argv
-  let options = {
-    siteBuild: argv._[0],
-    subfolder: argv.subfolder,
-    repoName: argv.repo,
-    pushBranch: argv.branch,
-    filterBowerFiles: argv.web,
-    travis: argv.travis
-  };
   let ghpagesInquirer = new GhpagesInquirer();
-  ghpagesInquirer.inquireMissingOptions(options)
+  ghpagesInquirer.inquireMissingOptions()
   .then(function(options) {
     return deploy(options);
   }, function(err) {
