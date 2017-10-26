@@ -1,11 +1,17 @@
 'use strict';
 
-const SiteRepo = require('../lib/ghpages/site-repo'),
+const SiteRepo = require('../lib/deploy/site-repo'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       _ = require('lodash'),
       fs = require('fs-promise'),
-      exec = require('mz/child_process').exec;
+      spawnPromise = require('spawn-rx').spawnPromise,
+      exec = function(string) {
+        // a wrapper around exec to always display stdout
+        let args = string.split(' ');
+        let cmd = args.shift();
+        return spawnPromise(cmd, args);
+      };
 chai.use(require('chai-string'));
 chai.use(chaiAsPromised);
 chai.should();
@@ -44,11 +50,12 @@ describe('SiteRepo', () => {
     let _cwd;
     beforeEach(() => {
       _cwd = process.cwd();
-      process.chdir('test/data');
+      return exec('rm -rf test/data/')
+      .then(() => fs.mkdir('test/data'))
+      .then(() => process.chdir('test/data'));
     });
     afterEach(() => {
       process.chdir(_cwd);
-      return exec('rm -rf test/data/*');
     });
 
     it('should return true when the repo is shallow', () => {
@@ -78,11 +85,12 @@ describe('SiteRepo', () => {
     let _cwd;
     beforeEach(() => {
       _cwd = process.cwd();
-      process.chdir('test/data');
+      return exec('rm -rf test/data/')
+      .then(() => fs.mkdir('test/data'))
+      .then(() => process.chdir('test/data'));
     });
     afterEach(() => {
       process.chdir(_cwd);
-      return exec('rm -rf test/data/*');
     });
 
     it('should clone a local repo', () => {
@@ -101,9 +109,9 @@ describe('SiteRepo', () => {
       return fs.mkdir('original')
       .then(() => process.chdir('original'))
       .then(() => exec(`git init`))
-      .then(() => exec(`echo hello > README.md`))
+      .then(() => fs.writeFile('README.md', 'hello'))
       .then(() => exec(`git add -A .`))
-      .then(() => exec(`git commit -m'Initial commit'`))
+      .then(() => spawnPromise('git', ['commit', '-m', 'Initial commit']))
       .then(() => process.chdir('..'))
 
       .then(() => exec(`git clone --bare original upstream`))
@@ -114,12 +122,12 @@ describe('SiteRepo', () => {
       .then(() => siteRepo.init())
 
       .then(() => exec(`git clone ../upstream github.io`))
-      .then(() => exec(`echo test > github.io/README.md`))
+      .then(() => fs.writeFile('github.io/README.md', 'test'))
       .then(() => siteRepo.push(deployment))
 
       .then(() => exec(`git pull`))
       .then(() => fs.readFile('README.md', 'utf8'))
-      .should.eventually.equal('test\n');
+      .should.eventually.equal('test');
     });
   });
 

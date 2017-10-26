@@ -1,11 +1,17 @@
 'use strict';
 
-const SiteWorktree = require('../lib/ghpages/site-worktree'),
+const SiteWorktree = require('../lib/deploy/site-worktree'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       _ = require('lodash'),
       fs = require('fs-promise'),
-      exec = require('mz/child_process').exec;
+      spawnPromise = require('spawn-rx').spawnPromise,
+      exec = function(string) {
+        // a wrapper around exec to always display stdout
+        let args = string.split(' ');
+        let cmd = args.shift();
+        return spawnPromise(cmd, args);
+      };
 chai.use(require('chai-string'));
 chai.use(chaiAsPromised);
 chai.should();
@@ -81,7 +87,7 @@ describe('SiteWorktree', () => {
       .then(() => exec(`git -C github.io init`))
       .then(() => exec(`touch github.io/README.md`))
       .then(() => exec(`git -C github.io add -A`))
-      .then(() => exec(`git -C github.io commit -m'Initial commit'`))
+      .then(() => spawnPromise('git', ['-C', 'github.io', 'commit', '-m', 'Initial commit']))
       .then(() => siteWorktree.isClean())
       .should.eventually.be.true;
     });
@@ -92,7 +98,7 @@ describe('SiteWorktree', () => {
       .then(() => exec(`git -C github.io init`))
       .then(() => exec(`touch github.io/README.md`))
       .then(() => exec(`git -C github.io add -A`))
-      .then(() => exec(`git -C github.io commit -m'Initial commit'`))
+      .then(() => spawnPromise('git', ['-C', 'github.io', 'commit', '-m', 'Initial commit']))
       .then(() => exec(`touch github.io/some_file.ext`))
       .then(() => siteWorktree.isClean())
       .should.eventually.be.false;

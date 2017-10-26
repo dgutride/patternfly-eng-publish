@@ -1,11 +1,10 @@
 'use strict';
 
-const deploymentEmitter = require('../lib/ghpages/deployment-emitter'),
+const deploymentEmitter = require('../lib/deploy/deployment-emitter'),
       chai = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
       _ = require('lodash'),
-      fs = require('fs-promise'),
-      exec = require('mz/child_process').exec;
+      fs = require('fs-promise');
 chai.use(require('chai-string'));
 chai.use(chaiAsPromised);
 chai.should();
