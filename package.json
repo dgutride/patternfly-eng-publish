@@ -7,8 +7,7 @@
     "test": "mocha test/*.spec.js"
   },
   "bin": {
-    "ghpages": "./bin/ghpages.js",
-    "stage": "./bin/pforg-stage.js"
+    "ghpages": "./bin/ghpages.js"
   },
   "repository": {
     "type": "git",
